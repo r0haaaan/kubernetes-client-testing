@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: eventester
+spec:
+  template:
+    metadata:
+      name: eventester
+    spec:
+      containers:
+        - name: eventester
+          image: phx.ocir.io/ax022wvgmjpq/helloworld-oke-verifier:latest
+          ports:
+            - containerPort: 80
+          command:
+            - "/bin/bash"
+            - "-c"
+            - "if (( RANDOM % 2 )); then exit 0; exit 2;fi"
+      restartPolicy: Never

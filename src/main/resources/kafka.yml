@@ -1,0 +1,319 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: kafkaclusters.kafka.test
+spec:
+  group: kafka.test
+  names:
+    kind: KafkaCluster
+    listKind: KafkaClusterList
+    plural: kafkaclusters
+    singular: kafkacluster
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      description: KafkaCluster is the Schema for the kafkaclusters API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: KafkaClusterSpec defines the desired state of KafkaCluster
+          properties:
+            kafka:
+              description: Kafka related config
+              properties:
+                acl:
+                  description: ACL related configuration
+                  properties:
+                    enabled:
+                      description: ACLs will be configured and enabled if this is
+                        set to "true"
+                      type: boolean
+                    kafkaUser:
+                      description: The user of the brokers. This is required if ACLs
+                        are enabled so this user can be made a super user.
+                      type: string
+                    usernameFormat:
+                      description: Enter 'distinguishedName' to derive the usernames
+                        from the Distinguished Name of the certificates. Enter 'certificateSignature'
+                        to derive the usernames from the signature of the certificate.
+                      enum:
+                        - distinguishedName
+                        - certificateSignature
+                      type: string
+                  required:
+                    - enabled
+                    - kafkaUser
+                  type: object
+                bmvCaCerts:
+                  description: BMW root and intermediate certificates
+                  type: string
+                config:
+                  description: Kafka broker specific configuration properties
+                  type: object
+                cpu:
+                  description: The amount of CPU to request for each pod
+                  pattern: \d+[m]?
+                  type: string
+                delayBetweenPodRestartsSeconds:
+                  description: How much time in seconds to wait between pod restarts
+                    to enable leader elections and other things to finish before initiating
+                    the next pod restart. A value of zero (0) means no delay at all.
+                  format: int32
+                  minimum: 0
+                  type: integer
+                image:
+                  description: The image to use to create the resource
+                  properties:
+                    name:
+                      description: The name of the Docker image
+                      type: string
+                    namespace:
+                      description: The namespace the Docker image is located in
+                      type: string
+                    registry:
+                      description: The Docker registry address
+                      type: string
+                    version:
+                      description: The version of the Docker image
+                      type: string
+                  required:
+                    - name
+                    - namespace
+                    - registry
+                    - version
+                  type: object
+                ldap:
+                  description: LDAP related configuration
+                  properties:
+                    enabled:
+                      description: LDAP authentication and authorization will be enabled
+                        if this is set to "true".
+                      type: boolean
+                    evictIntervalMin:
+                      description: Interval in minutes after entries should be removed
+                        from the LDAP cache.
+                      format: int32
+                      minimum: 0
+                      type: integer
+                    serverURL:
+                      description: The LDAP server URL to be used.
+                      type: string
+                    technicalUserPassword:
+                      description: The technical user's password to authenticate with
+                        the LDAP server.
+                      type: string
+                    technicalUsername:
+                      description: The technical user's username to authenticate with
+                        the LDAP server.
+                      type: string
+                    userDnPattern:
+                      description: A specific pattern used to build the user's DN.
+                        The key "{0}" must be present and will be substituted with
+                        the username.
+                      type: string
+                    userMemberOfAttribute:
+                      description: Name of attribute that contains the groups in a
+                        LDAP user entry.
+                      type: string
+                    userNameAttribute:
+                      description: Name of attribute that contains the user principal
+                        in LDAP user entry.
+                      type: string
+                    userObjectClass:
+                      description: LDAP object class for users.
+                      type: string
+                    userSearchBase:
+                      description: LDAP search base for user search.
+                      type: string
+                  required:
+                    - enabled
+                    - serverURL
+                    - technicalUserPassword
+                    - technicalUsername
+                  type: object
+                memory:
+                  description: The amount of memory to request for each pod (values
+                    must be specified as M or G)
+                  pattern: \d+[MG]
+                  type: string
+                replicas:
+                  description: Replicas is the number of zookeper pods
+                  format: int32
+                  minimum: 0
+                  type: integer
+                serverCertificate:
+                  description: The server certificate to use. If no certificate is
+                    configured, access from outside of the OpenShift is not possible.
+                    An unsecure certificate can be configured for testing purposes
+                    only by providing "USE_UNSECURE_TESTING_CERT". THIS MUST NOT BE
+                    USED IN PRODUCTION ENVIRONMENTS!
+                  type: string
+                storage:
+                  description: The size of the persistent volume claim for each pod
+                    (values must be specified as M or G)
+                  pattern: \d+[MG]
+                  type: string
+                template:
+                  description: Template to use to create the resource
+                  properties:
+                    name:
+                      description: The name of the resource
+                      type: string
+                    namespace:
+                      description: The namespace where the named resource reside
+                      type: string
+                  required:
+                    - name
+                    - namespace
+                  type: object
+                zookeeperChroot:
+                  description: The optional chroot suffix when connecting to a multi-tenant
+                    ZooKeeper cluster. Must start with a slash if provided.
+                  type: string
+              required:
+                - bmvCaCerts
+                - config
+                - cpu
+                - image
+                - memory
+                - replicas
+                - storage
+                - template
+              type: object
+            zookeeper:
+              description: Zookeeper related config
+              properties:
+                clientConnections:
+                  description: ZooKeeper maximum client connections
+                  format: int32
+                  minimum: 0
+                  type: integer
+                cpu:
+                  description: The amount of CPU to request for each pod
+                  pattern: \d+[m]?
+                  type: string
+                delayBetweenPodRestartsSeconds:
+                  description: How much time in seconds to wait between pod restarts
+                    to enable leader elections and other things to finish before initiating
+                    the next pod restart. A value of zero (0) means no delay at all.
+                  format: int32
+                  minimum: 0
+                  type: integer
+                image:
+                  description: The image to use to create the resource
+                  properties:
+                    name:
+                      description: The name of the Docker image
+                      type: string
+                    namespace:
+                      description: The namespace the Docker image is located in
+                      type: string
+                    registry:
+                      description: The Docker registry address
+                      type: string
+                    version:
+                      description: The version of the Docker image
+                      type: string
+                  required:
+                    - name
+                    - namespace
+                    - registry
+                    - version
+                  type: object
+                initLimit:
+                  description: Amount of time, in ticks, to allow followers to connect
+                    and sync to a leader
+                  format: int32
+                  minimum: 0
+                  type: integer
+                memory:
+                  description: The amount of memory to request for each pod (values
+                    must be specified as M or G)
+                  pattern: \d+[MG]
+                  type: string
+                purgeInterval:
+                  description: ZooKeeper auto purge interval
+                  format: int32
+                  minimum: 0
+                  type: integer
+                replicas:
+                  description: Replicas is the number of zookeper pods
+                  format: int32
+                  minimum: 0
+                  type: integer
+                retainCount:
+                  description: ZooKeeper auto purge retain count
+                  format: int32
+                  minimum: 0
+                  type: integer
+                syncLimit:
+                  description: Amount of time, in ticks, to allow followers to sync
+                    with ZooKeeper. If followers fall too far behind a leader, they
+                    will be dropped
+                  format: int32
+                  minimum: 0
+                  type: integer
+                template:
+                  description: Template to use to create the resource
+                  properties:
+                    name:
+                      description: The name of the resource
+                      type: string
+                    namespace:
+                      description: The namespace where the named resource reside
+                      type: string
+                  required:
+                    - name
+                    - namespace
+                  type: object
+                tick:
+                  description: The length of a single tick, which is the basic time
+                    unit used by ZooKeeper, as measured in milliseconds. It is used
+                    to regulate heartbeats, and timeouts.
+                  format: int32
+                  minimum: 0
+                  type: integer
+              required:
+                - cpu
+                - image
+                - memory
+                - replicas
+                - template
+              type: object
+          required:
+            - kafka
+            - zookeeper
+          type: object
+        status:
+          description: KafkaClusterStatus defines the observed state of KafkaCluster
+          properties:
+            lastUpdate:
+              format: date-time
+              type: string
+            reason:
+              type: string
+            status:
+              enum:
+                - Success
+                - Failure
+              type: string
+          type: object
+      type: object
+  version: v1beta1
+  versions:
+    - name: v1beta1
+      served: true
+      storage: true
