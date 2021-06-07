@@ -2,10 +2,7 @@ package io.fabric8;
 
 import io.fabric8.kubernetes.api.model.Event;
 import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watcher;
+import io.fabric8.kubernetes.client.*;
 
 public class EventWatcherTest {
     public static void main(String[] args) {
@@ -17,9 +14,10 @@ public class EventWatcherTest {
                 }
 
                 @Override
-                public void onClose(KubernetesClientException cause) {
+                public void onClose(WatcherException e) {
 
                 }
+
             });
 
 

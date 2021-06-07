@@ -142,11 +142,11 @@ public class QuantityTest {
 public void testOnAdd() {
     try (final KubernetesClient client = new DefaultKubernetesClient()) {
         // Given
-        CustomResourceDefinition animalCrd = client.customResourceDefinitions()
+        CustomResourceDefinition animalCrd = client.apiextensions().v1beta1().customResourceDefinitions()
                 .load(getClass().getResourceAsStream("/animal.yml")).get();
 
         // When
-        animalCrd = client.customResourceDefinitions().create(animalCrd);
+        animalCrd = client.apiextensions().v1beta1().customResourceDefinitions().create(animalCrd);
 
         // Then
         assertNotNull(animalCrd);

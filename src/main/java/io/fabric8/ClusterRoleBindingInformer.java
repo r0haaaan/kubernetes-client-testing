@@ -19,7 +19,7 @@ public class ClusterRoleBindingInformer {
             SharedInformerFactory sharedInformerFactory = client.informers();
 
             // Create instance for ClusterRoleBinding Informer
-            SharedIndexInformer<ClusterRoleBinding> ClusterRoleBindingInformer = sharedInformerFactory.sharedIndexInformerFor(ClusterRoleBinding.class, ClusterRoleBindingList.class,
+            SharedIndexInformer<ClusterRoleBinding> ClusterRoleBindingInformer = sharedInformerFactory.sharedIndexInformerFor(ClusterRoleBinding.class,
                     30 * 1000L);
             logger.info("Informer factory initialized.");
 

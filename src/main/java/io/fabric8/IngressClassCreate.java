@@ -12,7 +12,7 @@ public class IngressClassCreate {
                     .withNewMetadata().withName("external-lb").endMetadata()
                     .withNewSpec()
                     .withController("example.com/ingress-controller")
-                    .withNewParameters("k8s.example.com", "IngressParameters", "external-lb")
+                    .withNewParameters("k8s.example.com", "IngressParameters", "external-lb", "", "")
                     .endSpec()
                     .build();
 

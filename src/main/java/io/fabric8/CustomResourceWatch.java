@@ -1,11 +1,7 @@
 package io.fabric8;
 
 import io.fabric8.kubernetes.api.model.ListOptionsBuilder;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watch;
-import io.fabric8.kubernetes.client.Watcher;
+import io.fabric8.kubernetes.client.*;
 import io.fabric8.kubernetes.client.dsl.base.CustomResourceDefinitionContext;
 
 import java.io.IOException;
@@ -33,9 +29,11 @@ public class CustomResourceWatch {
                                 public void eventReceived(Action action, String resource) {
                                     System.out.println("Event received: " + action.name() + " " + resource);
                                 }
+
                                 @Override
-                                public void onClose(KubernetesClientException cause) {
+                                public void onClose(WatcherException e) {
                                 }
+
                             });
 
             Thread.sleep(60 * 1000);

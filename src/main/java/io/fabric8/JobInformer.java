@@ -1,7 +1,7 @@
 package io.fabric8;
 
-import io.fabric8.kubernetes.api.model.batch.Job;
-import io.fabric8.kubernetes.api.model.batch.JobList;
+import io.fabric8.kubernetes.api.model.batch.v1.Job;
+import io.fabric8.kubernetes.api.model.batch.v1.JobList;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.informers.ResourceEventHandler;
@@ -19,7 +19,7 @@ public class JobInformer {
             SharedInformerFactory sharedInformerFactory = client.informers();
 
             // Create instance for Job Informer
-            SharedIndexInformer<Job> jobSharedIndexInformer = sharedInformerFactory.sharedIndexInformerFor(Job.class, JobList.class,
+            SharedIndexInformer<Job> jobSharedIndexInformer = sharedInformerFactory.sharedIndexInformerFor(Job.class,
                     30 * 1000L);
             logger.info("Informer factory initialized.");
 

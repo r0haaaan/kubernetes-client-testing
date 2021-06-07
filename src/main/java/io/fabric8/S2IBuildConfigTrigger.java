@@ -19,7 +19,7 @@ public class S2IBuildConfigTrigger {
                     .withTimeoutInMillis(5 * 60 * 1000)
                     .fromFile(dockerTar);
 
-            List<Event> eventList = client.events().list().getItems();
+            List<Event> eventList = client.v1().events().list().getItems();
             eventList.sort((o1, o2) -> {
                     Instant i1 = Instant.parse(o1.getLastTimestamp());
                     Instant i2 = Instant.parse(o2.getLastTimestamp());

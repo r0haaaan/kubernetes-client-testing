@@ -24,9 +24,10 @@ public class DeploymentCrud {
     Deployment updatedDeploy = client.apps().deployments()
             .inNamespace("default")
             .withName("deploy1")
-            .edit()
-            .editMetadata().addToAnnotations("foo", "bar").endMetadata()
-            .done();
+            .edit(p -> new DeploymentBuilder(p).editMetadata()
+                          .addToAnnotations("foo", "bar")
+                          .endMetadata()
+                          .build());
 
     // Deletion
     Boolean isDeleted = client.apps().deployments()

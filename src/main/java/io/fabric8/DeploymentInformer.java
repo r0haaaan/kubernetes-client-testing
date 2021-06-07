@@ -19,7 +19,7 @@ public class DeploymentInformer {
             SharedInformerFactory sharedInformerFactory = client.informers();
 
             // Create instance for Deployment Informer
-            SharedIndexInformer<Deployment> DeploymentInformer = sharedInformerFactory.sharedIndexInformerFor(Deployment.class, DeploymentList.class,
+            SharedIndexInformer<Deployment> DeploymentInformer = sharedInformerFactory.sharedIndexInformerFor(Deployment.class,
                     30 * 1000L);
             logger.info("Informer factory initialized.");
 

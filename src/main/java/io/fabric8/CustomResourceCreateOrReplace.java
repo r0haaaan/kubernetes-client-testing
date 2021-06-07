@@ -3,16 +3,13 @@ package io.fabric8;
 import io.fabric8.crd.CronTab;
 import io.fabric8.crd.CronTabList;
 import io.fabric8.crd.CronTabSpec;
-import io.fabric8.crd.DoneableCronTab;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.Resource;
 import io.fabric8.kubernetes.client.dsl.base.CustomResourceDefinitionContext;
-import io.fabric8.kubernetes.client.dsl.internal.CustomResourceOperationContext;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 public class CustomResourceCreateOrReplace {
@@ -26,8 +23,8 @@ public class CustomResourceCreateOrReplace {
                     .withName("crontabs.stable.example.com")
                     .build();
 
-            MixedOperation<CronTab, CronTabList, DoneableCronTab, Resource<CronTab, DoneableCronTab>> cronTabClient =
-                    client.customResources(context, CronTab.class, CronTabList.class, DoneableCronTab.class);
+            MixedOperation<CronTab, CronTabList, Resource<CronTab>> cronTabClient =
+                    client.customResources(context, CronTab.class, CronTabList.class);
 
             CronTab ct = getCronTab();
 

@@ -20,7 +20,7 @@ public class NamespacedInformer {
             SharedInformerFactory sharedInformerFactory = client.informers();
 
             // Create instance for Namespace Informer
-            SharedIndexInformer<Namespace> NamespaceInformer = sharedInformerFactory.sharedIndexInformerFor(Namespace.class, NamespaceList.class,
+            SharedIndexInformer<Namespace> NamespaceInformer = sharedInformerFactory.sharedIndexInformerFor(Namespace.class,
                     new OperationContext().withNamespace("tekton-pipelines"),
                     30 * 1000L);
             logger.info("Informer factory initialized.");

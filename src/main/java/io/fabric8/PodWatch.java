@@ -2,10 +2,7 @@ package io.fabric8;
 
 import io.fabric8.kubernetes.api.model.ListOptionsBuilder;
 import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watcher;
+import io.fabric8.kubernetes.client.*;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
@@ -40,7 +37,7 @@ public class PodWatch {
                 }
 
                 @Override
-                public void onClose(KubernetesClientException e) {
+                public void onClose(WatcherException e) {
                     logger.log(Level.INFO, "Closed");
                     isWatchClosed.countDown();
                 }

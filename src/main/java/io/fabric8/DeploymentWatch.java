@@ -1,10 +1,7 @@
 package io.fabric8;
 
 import io.fabric8.kubernetes.api.model.apps.Deployment;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watcher;
+import io.fabric8.kubernetes.client.*;
 
 public class DeploymentWatch {
     public static void main(String[] args) {
@@ -16,7 +13,7 @@ public class DeploymentWatch {
                 }
 
                 @Override
-                public void onClose(KubernetesClientException e) {
+                public void onClose(WatcherException e) {
 
                 }
             });
